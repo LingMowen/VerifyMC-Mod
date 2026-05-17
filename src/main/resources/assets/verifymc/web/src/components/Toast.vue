@@ -1,0 +1,115 @@
+<template>
+  <Transition
+    enter-active-class="transition-all duration-300 ease-out"
+    enter-from-class="opacity-0 translate-y-2 scale-95"
+    enter-to-class="opacity-100 translate-y-0 scale-100"
+    leave-active-class="transition-all duration-200 ease-in"
+    leave-from-class="opacity-100 translate-y-0 scale-100"
+    leave-to-class="opacity-0 translate-y-2 scale-95"
+  >
+    <div
+        v-if="visible"
+        class="max-w-sm w-full"
+      >
+        <div
+          class="glass-card p-4 flex items-start space-x-3 relative pr-12"
+          :class="toastClasses"
+        >
+          <div class="flex-shrink-0 mt-0.5">
+            <CheckCircle v-if="type === 'success'" class="w-5 h-5 text-green-400" />
+            <XCircle v-else-if="type === 'error'" class="w-5 h-5 text-red-400" />
+            <AlertCircle v-else-if="type === 'warning'" class="w-5 h-5 text-yellow-400" />
+            <Info v-else class="w-5 h-5 text-blue-400" />
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-white">{{ title }}</p>
+            <p v-if="message" class="text-sm text-white/70 mt-1">{{ message }}</p>
+          </div>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            @click="close"
+            class="absolute top-2 right-2 flex-shrink-0 transition-colors duration-200 rounded-full"
+            :aria-label="$t('common.close')"
+            :title="$t('common.close')"
+          >
+            <X class="w-5 h-5" />
+          </Button>
+        </div>
+      </div>
+  </Transition>
+</template>
+
+<script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { CheckCircle, XCircle, AlertCircle, Info, X } from 'lucide-vue-next'
+import Button from '@/components/ui/Button.vue'
+import type { NotificationType } from '@/types'
+
+interface Props {
+  type?: NotificationType
+  title: string
+  message?: string
+  duration?: number
+  autoClose?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  type: 'info',
+  duration: 3000,
+  autoClose: true
+})
+
+const emit = defineEmits<{
+  close: []
+}>()
+
+const visible = ref(false)
+
+// 使用 ref 保存定时器 ID，确保组件卸载时能正确清理
+const autoCloseTimeout = ref<ReturnType<typeof setTimeout> | null>(null)
+const closeTimeout = ref<ReturnType<typeof setTimeout> | null>(null)
+
+const toastClasses = computed(() => {
+  const baseClasses = 'border-l-4'
+  switch (props.type) {
+    case 'success':
+      return `${baseClasses} border-green-400 bg-green-900/20`
+    case 'error':
+      return `${baseClasses} border-red-400 bg-red-900/20`
+    case 'warning':
+      return `${baseClasses} border-yellow-400 bg-yellow-900/20`
+    default:
+      return `${baseClasses} border-blue-400 bg-blue-900/20`
+  }
+})
+
+const close = () => {
+  visible.value = false
+  closeTimeout.value = setTimeout(() => {
+    emit('close')
+  }, 300)
+}
+
+onMounted(() => {
+  visible.value = true
+  
+  if (props.autoClose) {
+    autoCloseTimeout.value = setTimeout(() => {
+      close()
+    }, props.duration)
+  }
+})
+
+onUnmounted(() => {
+  // 清理所有定时器
+  if (autoCloseTimeout.value) {
+    clearTimeout(autoCloseTimeout.value)
+    autoCloseTimeout.value = null
+  }
+  if (closeTimeout.value) {
+    clearTimeout(closeTimeout.value)
+    closeTimeout.value = null
+  }
+})
+</script>

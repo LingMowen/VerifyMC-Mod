@@ -1,0 +1,34 @@
+package com.verifymc.auth;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.util.Base64;
+
+public class PasswordUtil {
+    
+    private static final SecureRandom RANDOM = new SecureRandom();
+    private static final int SALT_LENGTH = 16;
+    
+    public static String generateSalt() {
+        byte[] salt = new byte[SALT_LENGTH];
+        RANDOM.nextBytes(salt);
+        return Base64.getEncoder().encodeToString(salt);
+    }
+    
+    public static String hashPassword(String password, String salt) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            digest.update(salt.getBytes(StandardCharsets.UTF_8));
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to hash password", e);
+        }
+    }
+    
+    public static boolean verifyPassword(String password, String salt, String hash) {
+        String computedHash = hashPassword(password, salt);
+        return computedHash.equals(hash);
+    }
+}

@@ -24,10 +24,24 @@ sourceSets.main.resources {
     // Exclude common development only resources from finalized outputs
     exclude("**/*.bbmodel") // BlockBench project files
     exclude("src/generated/**/.cache") // datagen cache files
+    
+    // Exclude frontend development files (keep only built dist)
+    exclude("assets/**/web/node_modules/**") // npm dependencies
+    exclude("assets/**/web/src/**") // source code
+    exclude("assets/**/web/.gitignore")
+    exclude("assets/**/web/package*.json")
+    exclude("assets/**/web/*.config.*")
+    exclude("assets/**/web/tsconfig.json")
+    exclude("assets/**/web/README.md")
+    exclude("assets/**/web/.eslintrc.*")
 }
 
 repositories {
-    // Add here additional repositories if required by some of the dependencies below.
+    // 华为云 Maven 镜像源
+    maven { url 'https://repo.huaweicloud.com/repository/maven/' }
+    mavenCentral()
+    // For Java-WebSocket
+    maven { url 'https://repo1.maven.org/maven2/' }
 }
 
 base {
@@ -118,27 +132,11 @@ configurations {
 }
 
 dependencies {
-    // Example optional mod dependency with JEI
-    // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
-    // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
-    // compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
-    // We add the full version to localRuntime, not runtimeOnly, so that we do not publish a dependency on it
-    // localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
-
-    // Example mod dependency using a mod jar from ./libs with a flat dir repository
-    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
-    // The group id is ignored when searching -- in this case, it is "blank"
-    // implementation "blank:coolmod-${mc_version}:${coolmod_version}"
-
-    // Example mod dependency using a file as dependency
-    // implementation files("libs/coolmod-${mc_version}-${coolmod_version}.jar")
-
-    // Example project dependency using a sister or child project:
-    // implementation project(":myproject")
-
-    // For more info:
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    // Only include Gson, it's small and essential
+    implementation 'com.google.code.gson:gson:2.10.1'
+    
+    // Java-WebSocket for real-time notifications
+    implementation 'org.java-websocket:Java-WebSocket:1.5.6'
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -178,6 +176,8 @@ publishing {
         }
     }
 }
+
+
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
