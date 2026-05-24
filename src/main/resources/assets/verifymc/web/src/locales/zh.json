@@ -1,0 +1,420 @@
+{
+  "common": {
+    "loading": "加载中...",
+    "submit": "提交",
+    "cancel": "取消",
+    "confirm": "确认",
+    "delete": "删除",
+    "edit": "编辑",
+    "save": "保存",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "close": "关闭",
+    "clear": "清除",
+    "search": "搜索",
+    "filter": "筛选",
+    "refresh": "刷新",
+    "export": "导出",
+    "import": "导入",
+    "success": "成功",
+    "error": "错误",
+    "warning": "警告",
+    "info": "信息",
+    "back_home": "返回首页",
+    "second": "秒",
+    "seconds": "秒"
+  },
+  "nav": {
+    "home": "首页",
+    "register": "注册",
+    "login": "登录",
+    "admin": "管理",
+    "logout": "退出登录"
+  },
+  "home": {
+    "title": "VerifyMC 白名单系统",
+    "subtitle": "现代化的 Minecraft 服务器白名单管理平台",
+    "description": "安全、高效、美观的白名单注册与管理解决方案",
+    "welcome": "欢迎加入",
+    "features": {
+      "title": "核心特性",
+      "security": {
+        "title": "安全可靠",
+        "description": "多重验证机制，确保服务器安全"
+      },
+      "modern": {
+        "title": "现代设计",
+        "description": "Glassmorphism 设计风格，视觉体验出众"
+      },
+      "efficient": {
+        "title": "高效管理",
+        "description": "智能化审核流程，提升管理效率"
+      }
+    },
+    "cta": {
+      "register": "立即注册",
+      "learn_more": "了解更多"
+    },
+    "announcement": {
+      "title": "系统公告",
+      "no_announcement": "暂无公告"
+    }
+  },
+  "register": {
+    "title": "白名单注册",
+    "subtitle": "申请加入我们的 Minecraft 服务器白名单",
+    "features": {
+      "secure": "安全的注册流程",
+      "fast": "快速审核通过",
+      "privacy": "隐私信息受保护"
+    },
+    "form": {
+      "username": "用户名",
+      "username_placeholder": "请输入您的游戏用户名",
+      "email": "邮箱地址",
+      "email_placeholder": "请输入您的邮箱地址",
+      "code": "邮箱验证码",
+      "code_placeholder": "请输入邮箱验证码",
+      "captcha": "图形验证码",
+      "captcha_placeholder": "请输入验证码答案",
+      "captcha_refresh": "点击刷新验证码",
+      "captcha_hint": "点击图片可刷新验证码",
+      "password": "密码",
+      "password_placeholder": "请输入密码",
+      "password_hint": "密码应符合正则表达式：{regex}",
+      "platform": "游戏版本",
+      "platform_java": "Java 版",
+      "platform_bedrock": "基岩版",
+      "submit": "提交白名单申请",
+      "platform_bedrock_prefix_hint": "选择基岩版后将自动添加 {prefix} 前缀以区分"
+    },
+    "validation": {
+      "username_required": "请输入用户名",
+      "username_length": "用户名格式不正确，应符合正则表达式：{regex}",
+      "username_format": "用户名格式不正确，应符合正则表达式：{regex}",
+      "email_required": "请输入邮箱地址",
+      "email_format": "请输入有效的邮箱地址",
+      "code_required": "请输入邮箱验证码",
+      "captcha_required": "请输入图形验证码",
+      "password_required": "请输入密码",
+      "password_format": "密码格式不正确，应符合正则表达式：{regex}"
+    },
+    "messages": {
+      "success": "白名单申请已提交，请等待管理员审核",
+      "error": "申请提交失败，请稍后重试",
+      "user_exists": "用户名或邮箱已存在",
+      "username_exists": "用户名已存在"
+    },
+    "send_code": "发送验证码",
+    "sendCode": "发送验证码",
+    "sending": "发送中...",
+    "code_sent": "验证码已发送，请查收！",
+    "codeSent": "验证码已发送，请查收！",
+    "send_failed": "验证码发送失败，请重试。",
+    "sendFailed": "验证码发送失败，请重试。",
+    "rate_limited": "发送验证码过于频繁，请等待 {seconds} 秒后再试",
+    "success": "注册成功！请等待审核。",
+    "failed": "注册失败，请重试。",
+    "usernameExists": "用户名已存在",
+    "steps": {
+      "basic": "基础信息",
+      "questionnaire": "问卷",
+      "submit": "提交注册"
+    },
+    "actions": {
+      "next_questionnaire": "下一步：问卷"
+    },
+    "summary": {
+      "username": "用户名",
+      "email": "邮箱",
+      "questionnaire": "问卷结果"
+    },
+    "questionnaire": {
+      "required": "必须先通过问卷后才能注册。"
+    }
+  },
+  "login": {
+    "title": "登录",
+    "subtitle": "请输入您的账户信息",
+    "form": {
+      "username": "用户名/邮箱",
+      "username_placeholder": "请输入用户名或邮箱",
+      "password": "密码",
+      "password_placeholder": "请输入密码",
+      "submit": "登录"
+    },
+    "validation": {
+      "username_required": "请输入用户名或邮箱",
+      "password_required": "请输入密码"
+    },
+    "messages": {
+      "success": "登录成功，正在跳转到管理页面...",
+      "error": "登录失败，请稍后重试",
+      "invalid_credentials": "用户名或密码错误",
+      "not_authorized": "您没有管理员权限",
+      "system_error": "系统配置错误，请联系服务器管理员"
+    }
+  },
+  "admin": {
+    "title": "管理面板",
+    "login_success": "登录成功，正在跳转...",
+    "tabs": {
+      "review": "待审核",
+      "users": "全部用户"
+    },
+    "review": {
+      "title": "审核面板",
+      "table": {
+        "username": "用户名",
+        "email": "邮箱",
+        "register_time": "注册时间",
+        "actions": "操作",
+        "questionnaire_score": "问卷总分",
+        "questionnaire_reason": "问答题评分原因"
+      },
+      "actions": {
+        "approve": "通过",
+        "reject": "拒绝"
+      },
+      "no_pending": "暂无待审核用户",
+      "reject_modal": {
+        "title": "拒绝申请",
+        "reason_label": "拒绝原因",
+        "reason_placeholder": "请输入拒绝原因（可选）",
+        "cancel": "取消",
+        "confirm": "拒绝"
+      },
+      "messages": {
+        "error": "加载失败",
+        "approve_success": "审核通过成功",
+        "reject_success": "审核拒绝成功",
+        "approve_failed": "审核通过失败",
+        "reject_failed": "审核拒绝失败",
+        "failed": "操作失败"
+      }
+    },
+    "users": {
+      "title": "用户管理",
+      "search_placeholder": "搜索用户名或邮箱...",
+      "table": {
+        "username": "用户名",
+        "email": "邮箱",
+        "status": "状态",
+        "register_time": "注册时间",
+        "actions": "操作"
+      },
+      "status": {
+        "pending": "待审核",
+        "approved": "已通过",
+        "rejected": "已拒绝",
+        "banned": "已封禁"
+      },
+      "actions": {
+        "change_password": "修改密码",
+        "delete": "删除",
+        "ban": "封禁",
+        "unban": "解封"
+      },
+      "change_password_modal": {
+        "title": "修改密码",
+        "new_password": "新密码",
+        "password_placeholder": "请输入新密码"
+      },
+      "delete_modal": {
+        "title": "确认删除",
+        "message": "确定要删除用户 {username} 吗？此操作不可撤销。",
+        "confirm": "删除",
+        "cancel": "取消"
+      },
+      "ban_modal": {
+        "title": "确认封禁",
+        "message": "确定要封禁用户 {username} 吗？",
+        "confirm": "封禁",
+        "cancel": "取消"
+      },
+      "unban_modal": {
+        "title": "确认解封",
+        "message": "确定要解封用户 {username} 吗？",
+        "confirm": "解封",
+        "cancel": "取消"
+      },
+      "messages": {
+        "load_error": "加载失败",
+        "delete_success": "删除成功",
+        "delete_failed": "删除失败",
+        "ban_success": "封禁成功",
+        "ban_failed": "封禁失败",
+        "unban_success": "解封成功",
+        "unban_failed": "解封失败",
+        "password_change_success": "密码修改成功",
+        "password_change_failed": "密码修改失败",
+        "error": "操作失败"
+      },
+      "no_users": "暂无用户",
+      "no_search_results": "未找到匹配的用户"
+    }
+  },
+  "user_status": {
+    "title": "申请状态",
+    "status": {
+      "pending": "待审核",
+      "approved": "已通过",
+      "rejected": "已拒绝"
+    },
+    "messages": {
+      "pending": "您的申请正在审核中，请耐心等待",
+      "approved": "恭喜！您的申请已通过，可以加入服务器了",
+      "rejected": "很抱歉，您的申请被拒绝"
+    },
+    "reason": "拒绝原因"
+  },
+  "errors": {
+    "404": {
+      "title": "页面未找到",
+      "message": "抱歉，您访问的页面不存在",
+      "back_home": "返回首页"
+    },
+    "500": {
+      "title": "服务器错误",
+      "message": "服务器出现了一些问题，请稍后重试",
+      "back_home": "返回首页"
+    },
+    "network": "网络连接失败，请检查网络设置",
+    "timeout": "请求超时，请稍后重试",
+    "unknown": "未知错误，请稍后重试"
+  },
+  "language": {
+    "switch": "切换语言",
+    "zh": "中文",
+    "en": "English"
+  },
+  "notification": {
+    "register_success": "注册成功！您的申请已提交审核。",
+    "register_failed": "注册失败，请稍后再试。",
+    "username_exists": "用户名已存在"
+  },
+  "pagination": {
+    "title": "分页导航",
+    "showing": "显示",
+    "of": "共",
+    "items": "条记录",
+    "previous": "上一页",
+    "next": "下一页",
+    "per_page": "每页显示",
+    "page_numbers": "页码",
+    "page": "第 {page} 页"
+  },
+  "version": {
+    "update_available": "发现新版本",
+    "current_version": "当前版本",
+    "latest_version": "最新版本",
+    "update_description": "建议更新到最新版本以获得更好的功能和安全性。",
+    "remind_later": "稍后提醒",
+    "download_now": "立即下载",
+    "check_failed": "版本检查失败"
+  },
+  "questionnaire": {
+    "title": "注册问卷",
+    "subtitle": "请回答以下问题，帮助我们更好地了解您",
+    "not_enabled": "问卷功能未启用",
+    "continue": "继续",
+    "submit": "提交问卷",
+    "retry": "重新答题",
+    "passed": "问卷通过！",
+    "failed": "问卷未通过",
+    "your_score": "您的得分",
+    "multiple_choice": "可多选",
+    "answer_all": "请回答所有问题",
+    "load_error": "加载问卷失败",
+    "submit_error": "提交问卷失败",
+    "text_placeholder": "请输入您的回答",
+    "length_hint": "长度要求：{min}-{max} 字符",
+    "unsupported_type": "暂不支持的题型"
+  },
+  "discord": {
+    "link_button": "绑定 Discord",
+    "link_success": "Discord 账户绑定成功",
+    "link_failed": "Discord 账户绑定失败",
+    "linked": "已绑定 Discord",
+    "required_hint": "绑定 Discord 账户是必需的",
+    "required": "需要绑定 Discord 账户才能注册"
+  },
+  "dashboard": {
+    "title": "控制面板",
+    "sections": {
+      "player": "玩家区",
+      "admin": "管理区"
+    },
+    "roles": {
+      "admin": "管理员",
+      "player": "玩家"
+    },
+    "menu": {
+      "profile": "个人资料",
+      "downloads": "下载中心",
+      "server_status": "服务器状态",
+      "user_management": "玩家管理",
+      "audit_log": "审计日志"
+    },
+    "profile": {
+      "edit_profile": "编辑资料",
+      "change_password": "修改密码",
+      "current_password": "当前密码",
+      "current_password_placeholder": "请输入当前密码",
+      "new_password": "新密码",
+      "new_password_placeholder": "请输入新密码",
+      "change_password_btn": "更改密码",
+      "password_required": "请填写所有密码字段",
+      "password_change_success": "密码修改成功",
+      "save_success": "资料保存成功"
+    },
+    "downloads": {
+      "title": "下载中心",
+      "description": "下载服务器所需的客户端、模组包等资源",
+      "download": "下载",
+      "no_resources": "暂无可下载资源",
+      "no_resources_hint": "请稍后再来查看",
+      "instructions_title": "安装说明",
+      "instruction_1": "下载所需的资源文件",
+      "instruction_2": "将文件放入 Minecraft 游戏目录",
+      "instruction_3": "启动游戏并加入服务器"
+    },
+    "server_status": {
+      "title": "服务器状态",
+      "online": "在线",
+      "offline": "离线",
+      "players": "在线玩家",
+      "tps": "TPS",
+      "memory": "内存",
+      "version": "版本",
+      "online_players": "在线玩家列表",
+      "no_players": "暂无玩家在线",
+      "api_not_available": "服务器状态 API 暂未实现，显示的是模拟数据"
+    },
+    "audit_log": {
+      "title": "审计日志",
+      "all_actions": "所有操作",
+      "actions": {
+        "approve": "通过",
+        "reject": "拒绝",
+        "ban": "封禁",
+        "unban": "解封",
+        "delete": "删除",
+        "register": "注册",
+        "login": "登录",
+        "logout": "登出",
+        "password_change": "修改密码",
+        "admin_access_denied": "访问被拒绝"
+      },
+      "table": {
+        "time": "时间",
+        "action": "操作",
+        "operator": "操作者",
+        "target": "目标",
+        "detail": "详情"
+      },
+      "no_logs": "暂无审计日志"
+    }
+  }
+}

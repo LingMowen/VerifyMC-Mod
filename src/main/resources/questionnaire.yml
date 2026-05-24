@@ -1,0 +1,152 @@
+# 白名单申请问卷配置
+# 支持的问题类型: text, textarea, select, checkbox, radio
+
+questions:
+  # 游戏经验问题
+  - id: game_experience
+    type: select
+    title: 您的Minecraft游戏经验
+    description: 请选择您玩Minecraft的时长
+    required: true
+    options:
+      - value: beginner
+        label: 新手（少于1年）
+      - value: intermediate
+        label: 中级（1-3年）
+      - value: advanced
+        label: 高级（3-5年）
+      - value: expert
+        label: 专家（5年以上）
+
+  # 游戏风格问题
+  - id: play_style
+    type: checkbox
+    title: 您喜欢的游戏风格
+    description: 请选择您喜欢的游戏方式（可多选）
+    required: true
+    validation:
+      min: 1
+      max: 5
+    options:
+      - value: survival
+        label: 生存模式
+      - value: creative
+        label: 创造模式
+      - value: redstone
+        label: 红石机械
+      - value: building
+        label: 建筑
+      - value: pvp
+        label: PVP对战
+      - value: exploration
+        label: 探索冒险
+      - value: farming
+        label: 农业养殖
+
+  # 加入原因
+  - id: join_reason
+    type: textarea
+    title: 为什么想加入我们的服务器？
+    description: 请详细说明您想加入服务器的原因
+    required: true
+    placeholder: 请至少输入50字...
+    validation:
+      minLength: 50
+      maxLength: 1000
+
+  # 每日在线时间
+  - id: daily_playtime
+    type: select
+    title: 预计每日在线时间
+    description: 您预计每天能在服务器上玩多久？
+    required: true
+    options:
+      - value: "1h"
+        label: 1小时以内
+      - value: "2h"
+        label: 1-2小时
+      - value: "3h"
+        label: 2-4小时
+      - value: "4h"
+        label: 4小时以上
+
+  # 是否同意规则
+  - id: agree_rules
+    type: radio
+    title: 您是否同意遵守服务器规则？
+    description: 请确认您已阅读并同意遵守服务器的所有规则
+    required: true
+    options:
+      - value: "yes"
+        label: 我同意遵守服务器规则
+      - value: "no"
+        label: 我不同意
+
+  # 是否接受审核
+  - id: accept_review
+    type: radio
+    title: 您是否接受管理员审核？
+    description: 管理员可能需要进一步询问您一些问题
+    required: true
+    options:
+      - value: "yes"
+        label: 接受审核
+      - value: "no"
+        label: 不接受
+
+  # 联系方式
+  - id: contact_info
+    type: text
+    title: 备用联系方式（可选）
+    description: 如QQ、微信、Discord等，方便管理员联系您
+    required: false
+    placeholder: 例如：QQ 123456789
+    validation:
+      maxLength: 100
+
+  # 自我介绍
+  - id: self_introduction
+    type: textarea
+    title: 自我介绍
+    description: 简单介绍一下自己，让管理员更好地了解您
+    required: true
+    placeholder: 请介绍一下您的游戏经历、兴趣爱好等...
+    validation:
+      minLength: 20
+      maxLength: 500
+
+  # 是否愿意参与社区建设
+  - id: community_contribution
+    type: select
+    title: 您是否愿意参与服务器社区建设？
+    description: 例如参与活动组织、帮助新玩家等
+    required: true
+    options:
+      - value: very_willing
+        label: 非常愿意
+      - value: willing
+        label: 愿意
+      - value: maybe
+        label: 看情况
+      - value: not_willing
+        label: 不太愿意
+
+  # 从何处了解到服务器
+  - id: source
+    type: select
+    title: 您从何处了解到本服务器？
+    description: 请选择您获取服务器信息的渠道
+    required: true
+    options:
+      - value: friend
+        label: 朋友推荐
+      - value: forum
+        label: Minecraft论坛
+      - value: social_media
+        label: 社交媒体
+      - value: video
+        label: 视频平台（B站/YouTube等）
+      - value: search
+        label: 搜索引擎
+      - value: other
+        label: 其他渠道

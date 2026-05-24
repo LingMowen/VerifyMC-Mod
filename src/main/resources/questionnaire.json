@@ -1,0 +1,41 @@
+{
+  "questions": [
+    {
+      "id": "experience",
+      "type": "select",
+      "question": "你的Minecraft游戏经验是？",
+      "required": true,
+      "options": ["新手（少于1个月）", "入门（1-6个月）", "熟练（6个月-2年）", "专家（2年以上）"]
+    },
+    {
+      "id": "playstyle",
+      "type": "checkbox",
+      "question": "你喜欢的游戏风格是？（可多选）",
+      "required": true,
+      "options": ["生存建造", "红石机械", "PVP对战", "探险冒险", "农业养殖", "社交互动"]
+    },
+    {
+      "id": "reason",
+      "type": "textarea",
+      "question": "你为什么想加入我们的服务器？",
+      "required": true,
+      "placeholder": "请详细描述你的加入原因...",
+      "minLength": 20,
+      "maxLength": 500
+    },
+    {
+      "id": "playtime",
+      "type": "select",
+      "question": "你每天大约能在线多长时间？",
+      "required": true,
+      "options": ["少于1小时", "1-2小时", "2-4小时", "4小时以上"]
+    },
+    {
+      "id": "rules",
+      "type": "radio",
+      "question": "你是否同意遵守服务器规则？",
+      "required": true,
+      "options": ["完全同意", "需要了解具体规则"]
+    }
+  ]
+}

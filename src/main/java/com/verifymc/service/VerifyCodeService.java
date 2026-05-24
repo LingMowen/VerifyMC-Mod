@@ -1,0 +1,208 @@
+package com.verifymc.service;
+
+import com.verifymc.VerifyMC;
+import com.verifymc.config.VerifyMCConfig;
+
+import java.security.SecureRandom;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Service for managing email verification codes
+ * Handles code generation, validation, rate limiting, and cleanup
+ */
+public class VerifyCodeService {
+    private static final int MAX_ATTEMPTS = 5; // Maximum verification attempts
+    private final ConcurrentHashMap<String, CodeEntry> codeMap = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Long> rateLimitMap = new ConcurrentHashMap<>(); // Rate limiting for email sending
+    private final long expireMillis = 5 * 60 * 1000; // 5 minutes expiry
+    private final long rateLimitMillis = 60 * 1000; // 60 seconds rate limit
+    private final SecureRandom secureRandom = new SecureRandom();
+    private volatile boolean running = true;
+
+    public VerifyCodeService() {
+        startCleanupTask();
+    }
+
+    /**
+     * Start cleanup task to remove expired entries
+     */
+    private void startCleanupTask() {
+        Thread cleanupThread = new Thread(() -> {
+            while (running) {
+                try {
+                    Thread.sleep(300000); // Clean up every 5 minutes
+                    cleanupExpiredEntries();
+                } catch (InterruptedException e) {
+                    debugLog("Cleanup task interrupted");
+                    break;
+                }
+            }
+        });
+        cleanupThread.setDaemon(true);
+        cleanupThread.setName("VerifyCodeService-Cleanup");
+        cleanupThread.start();
+        debugLog("Cleanup task started");
+    }
+
+    /**
+     * Stop the cleanup task gracefully
+     */
+    public void stop() {
+        running = false;
+        debugLog("Cleanup task stopped");
+    }
+
+    /**
+     * Clean up expired code entries and rate limit entries
+     */
+    private void cleanupExpiredEntries() {
+        long currentTime = System.currentTimeMillis();
+
+        // Clean up expired verification codes
+        codeMap.entrySet().removeIf(entry -> {
+            boolean expired = entry.getValue().expire < currentTime;
+            if (expired) {
+                debugLog("Removed expired code for key: " + entry.getKey());
+            }
+            return expired;
+        });
+
+        // Clean up expired rate limit entries
+        rateLimitMap.entrySet().removeIf(entry -> {
+            boolean expired = (currentTime - entry.getValue()) > rateLimitMillis;
+            if (expired) {
+                debugLog("Removed expired rate limit for email: " + entry.getKey());
+            }
+            return expired;
+        });
+
+        debugLog("Cleanup completed. Active codes: " + codeMap.size() + ", Active rate limits: " + rateLimitMap.size());
+    }
+
+    private void debugLog(String msg) {
+        if (VerifyMCConfig.DEBUG.get()) {
+            VerifyMC.LOGGER.info("[DEBUG] VerifyCodeService: {}", msg);
+        }
+    }
+
+    /**
+     * Check if email is within rate limit for sending verification codes
+     * @param email Email to check
+     * @return true if email can send code (not rate limited)
+     */
+    public boolean canSendCode(String email) {
+        debugLog("canSendCode called for email: " + email);
+        Long lastSentTime = rateLimitMap.get(email);
+        if (lastSentTime == null) {
+            debugLog("No previous send record for email: " + email);
+            return true;
+        }
+
+        long currentTime = System.currentTimeMillis();
+        long timeSinceLastSent = currentTime - lastSentTime;
+        boolean canSend = timeSinceLastSent >= rateLimitMillis;
+
+        debugLog("Email: " + email + ", last sent: " + lastSentTime + ", time since: " + timeSinceLastSent + "ms, can send: " + canSend);
+
+        // Clean up expired rate limit entries
+        if (canSend) {
+            rateLimitMap.remove(email);
+        }
+
+        return canSend;
+    }
+
+    /**
+     * Get remaining time in seconds before next code can be sent
+     * @param email Email to check
+     * @return remaining seconds, 0 if can send immediately
+     */
+    public long getRemainingCooldownSeconds(String email) {
+        Long lastSentTime = rateLimitMap.get(email);
+        if (lastSentTime == null) {
+            return 0;
+        }
+
+        long currentTime = System.currentTimeMillis();
+        long timeSinceLastSent = currentTime - lastSentTime;
+        long remainingMillis = rateLimitMillis - timeSinceLastSent;
+
+        return remainingMillis > 0 ? (remainingMillis / 1000) + 1 : 0;
+    }
+
+    /**
+     * Generate a verification code for the given key (email)
+     * @param key Email or identifier
+     * @return The generated 6-digit code
+     */
+    public String generateCode(String key) {
+        debugLog("generateCode called for key: " + key);
+        String code = String.format("%06d", secureRandom.nextInt(1000000));
+        long expireTime = System.currentTimeMillis() + expireMillis;
+        long currentTime = System.currentTimeMillis();
+
+        // Record the time when code was generated for rate limiting
+        rateLimitMap.put(key, currentTime);
+        codeMap.put(key, new CodeEntry(code, expireTime));
+
+        debugLog("Generated code for key: " + key + ", expires at: " + expireTime + ", rate limit recorded at: " + currentTime);
+        return code;
+    }
+
+    /**
+     * Check verification code for given key
+     * @param key Key to check (email)
+     * @param code Code to verify
+     * @return true if code is valid
+     */
+    public boolean checkCode(String key, String code) {
+        debugLog("checkCode called: key=" + key + ", code=" + code);
+        CodeEntry entry = codeMap.get(key);
+        if (entry == null) {
+            debugLog("No code found for key: " + key);
+            return false;
+        }
+
+        // Check max attempts
+        if (entry.attempts >= MAX_ATTEMPTS) {
+            debugLog("Too many attempts for key: " + key + ", attempts: " + entry.attempts);
+            codeMap.remove(key);
+            return false;
+        }
+
+        if (entry.expire < System.currentTimeMillis()) {
+            debugLog("Code expired for key: " + key + ", expired at: " + entry.expire);
+            codeMap.remove(key);
+            return false;
+        }
+
+        entry.attempts++; // Increment attempts
+        boolean ok = entry.code.equals(code);
+        debugLog("Code verification result: " + ok + " (attempts: " + entry.attempts + ")");
+        if (ok) {
+            debugLog("Removing used code for key: " + key);
+            codeMap.remove(key);
+        }
+        return ok;
+    }
+
+    /**
+     * Remove code for given key
+     * @param key Key to remove
+     */
+    public void removeCode(String key) {
+        codeMap.remove(key);
+    }
+
+    static class CodeEntry {
+        String code;
+        long expire;
+        int attempts; // Verification attempts
+
+        CodeEntry(String code, long expire) {
+            this.code = code;
+            this.expire = expire;
+            this.attempts = 0;
+        }
+    }
+}
